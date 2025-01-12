@@ -1,4 +1,5 @@
 from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 from src.core.controller import ResearchController
 from src.models.state import FinancialMetrics
 import asyncio
@@ -13,7 +14,7 @@ async def main():
     try:
         # Initialize the LLM
         llm = ChatOllama(
-            temperature=0.7,
+            temperature=0.3,
             model="llama3.2"  # Using GPT-4 for better analysis
         )
 

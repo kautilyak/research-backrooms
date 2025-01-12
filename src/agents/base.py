@@ -52,6 +52,18 @@ class FinancialAnalysisAgent:
         - Debt to Equity: {metrics.debt_to_equity}
         - Current Ratio: {metrics.current_ratio}
         
+        Your task is to analyze financial metrics and provide detailed insights.
+        Analysis Guidelines:
+        1. Focus on the current metric while considering its relationships with other metrics
+        2. Use specific numbers and percentages in your analysis
+        3. When responding to other agent's points:
+           - Acknowledge their perspective
+           - Add new insights that build on or respectfully challenge their analysis
+           - Support your views with specific data from the metrics
+        4. Keep the discussion focused on {state.company_name}'s performance
+        5. Avoid speculation about information not provided in the metrics
+    
+        
         Previous discussion points:
         """
 
@@ -65,15 +77,16 @@ class FinancialAnalysisAgent:
     def _get_analysis(self, context: str) -> str:
         """Get analysis from the LLM with enhanced prompting and validation"""
         messages = [
-            SystemMessage(content=f"""You are a {self.role_description}. 
-            Your task is to analyze financial metrics and provide detailed insights.
-            Your response should be detailed and specific, never empty or generic."""),
-            HumanMessage(content=context),
+            SystemMessage(content=f"""{context}. 
+            """),
+            #HumanMessage(content=context),
             HumanMessage(content=f"""Analyze the current metric in detail. 
             Remember to maintain your perspective as a {self.name} analyst.
             If you see any concerning trends or notable points, highlight them.
             
-            Provide a thorough analysis with specific numbers and implications.""")
+            Provide a thorough analysis with specific numbers and implications.
+            Let's think about it step by step..
+            """)
         ]
 
         max_retries = 3
