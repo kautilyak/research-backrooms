@@ -1,4 +1,9 @@
 # Abstract Idea of a Backroom
+
+- A backroom is an abstract communication exchange between two agents aimed to derive knowledge from and exchange with the other agents in the same backroom. Typically we have 2 agents for the sake of simplicity, but in theory we could have any infinite number of agents 
+engaing in a group discussion. All these agents are motivated to move towards a common goal by selecting the best action in the avialable list of action spaces.
+
+
 ![image](https://github.com/user-attachments/assets/3824a165-0248-4fdc-a7d6-2b4666b6283e)
 
 
