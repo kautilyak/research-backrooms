@@ -1,3 +1,7 @@
+# Abstract Idea of a Backroom
+![image](https://github.com/user-attachments/assets/3824a165-0248-4fdc-a7d6-2b4666b6283e)
+
+
 ```
 C:\Users\kautilyak\ai\researchbackroom\research-backrooms\src\main.py 
 INFO:__main__:Starting financial research analysis...
