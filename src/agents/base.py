@@ -27,6 +27,12 @@ class FinancialAnalysisAgent:
         Analyze the current state and return updated state.
         This is the main agent function that will be called by the LangGraph workflow.
         """
+        # Print analysis context
+        current_metric = state.metrics_to_analyze[state.current_metric_index]
+        print(f"\n\033[94m{'='*50}\033[0m")
+        print(f"\033[94mAnalyzing {current_metric} for {state.company_name}\033[0m")
+        print(f"\033[94m{'='*50}\033[0m\n")
+
         # Create the agent's context from state
         context = self._create_context(state)
 
@@ -94,15 +100,37 @@ class FinancialAnalysisAgent:
 
         while retry_count < max_retries:
             try:
-                response = self.llm.invoke(messages)
-                content = response.content
+                # Initialize an empty string to collect the streamed content
+                accumulated_content = []
+
+                # Get streaming response
+                print(f"\033[92m{self.name}\033[0m:")
+                for chunk in self.llm.stream(messages):
+                    # Extract content from the chunk
+                    if hasattr(chunk, 'content'):
+                        content = chunk.content
+                    elif isinstance(chunk, dict) and 'content' in chunk:
+                        content = chunk['content']
+                    else:
+                        content = str(chunk)
+
+                    if content:
+                        # Print the chunk with agent identification
+                        print(f"{content}", end="", flush=True)
+                        accumulated_content.append(content)
+
+                # Add a newline after streaming is complete
+                print()
+
+                # Combine all chunks into final content
+                final_content = "".join(accumulated_content)
 
                 # Validate response
-                if not content or len(content.strip()) < 50:  # Minimum response length
+                if not final_content or len(final_content.strip()) < 50:  # Minimum response length
                     retry_count += 1
                     continue
 
-                return content
+                return final_content
 
             except Exception as e:
                 retry_count += 1
