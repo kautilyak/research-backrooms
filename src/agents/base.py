@@ -1,5 +1,7 @@
 # src/agents/base.py
 from typing import Dict, List
+
+from langchain_core.language_models import BaseChatModel
 from langgraph.graph import MessageGraph
 from langchain.schema import BaseMessage
 from langchain_core.agents import AgentAction, AgentFinish
@@ -12,12 +14,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 from src.models.state import ResearchState, AgentState, AnalysisPoint
 from datetime import datetime
+from langchain_core.tools import Tool
 
 
 class FinancialAnalysisAgent:
     """Base class for financial analysis agents"""
 
-    def __init__(self, llm, name: str, role_description: str):
+    def __init__(self, llm: BaseChatModel, name: str, role_description: str):
         self.llm = llm
         self.name = name
         self.role_description = role_description
@@ -53,10 +56,7 @@ class FinancialAnalysisAgent:
         Current focus metric: {current_metric}
         
         Financial metrics:
-        - Revenue Growth: {metrics.revenue_growth}%
-        - Profit Margin: {metrics.profit_margin}%
-        - Debt to Equity: {metrics.debt_to_equity}
-        - Current Ratio: {metrics.current_ratio}
+        {metrics}
         
         Your task is to analyze financial metrics and provide detailed insights.
         Analysis Guidelines:

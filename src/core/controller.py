@@ -75,10 +75,28 @@ class ResearchController:
             status="active",
             started_at=datetime.now(),
             metrics_to_analyze=[
+                # include all the metrics from vantage
                 "revenue_growth",
                 "profit_margin",
                 "debt_to_equity",
-                "current_ratio"
+                "current_ratio",   
+                "cash_flow_ratio",
+                "inventory_turnover",
+                "asset_turnover",
+                "return_on_assets",
+                "return_on_equity",
+                "earnings_per_share",
+                "pe_ratio",
+                "peg_ratio",
+                "book_value",
+                "dividend_per_share",
+                "dividend_yield",
+                "revenue_per_share",
+                "operating_margin",
+                "gross_profit",
+                "quarterly_earnings_growth",
+                "market_cap",
+                "ebitda"
             ],
             current_metric_index=0
         )

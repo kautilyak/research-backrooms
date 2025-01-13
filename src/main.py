@@ -2,8 +2,13 @@ from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from src.core.controller import ResearchController
 from src.models.state import FinancialMetrics
-import asyncio
+import asyncio, os
 import logging
+from src.data_sources.vantage import AlphaVantageClient
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -15,19 +20,20 @@ async def main():
         # Initialize the LLM
         llm = ChatOllama(
             temperature=0.3,
-            model="llama3.2"  # Using GPT-4 for better analysis
+            model="llama3.2",
+            num_ctx=16384,
         )
 
         # Create the controller
         controller = ResearchController(llm)
 
-        # Define company metrics
-        metrics = FinancialMetrics(
-            revenue_growth=15.5,
-            profit_margin=8.2,
-            debt_to_equity=1.5,
-            current_ratio=2.1
-        )
+        
+
+        alpha_vantage_client = AlphaVantageClient(api_key=os.getenv("ALPHA_VANTAGE_API_KEY"))
+        financial_data = await alpha_vantage_client.get_company_financials("MSFT")  # Assuming TechCorp ticker is TECH
+        
+        # Calculate metrics from the raw financial data from AlphaVantage
+        metrics = FinancialMetrics(**alpha_vantage_client.calculate_all_metrics(financial_data))
 
         # Run the research
         logger.info("Starting financial research analysis...")
