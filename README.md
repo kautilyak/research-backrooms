@@ -9,7 +9,6 @@ engaing in a group discussion. All these agents are motivated to move towards a 
 `Example Run: MSFT (Microsoft)`
 ```
 C:\Users\kautilyak\ai\researchbackroom\research-backrooms\src\main.py 
-C:\Users\kauti\Documents\ai\researchbackroom\research-backrooms\.venv\Scripts\python.exe C:\Users\kauti\Documents\ai\researchbackroom\research-backrooms\src\main.py 
 INFO:__main__:Starting financial research analysis...
 
 ==================================================
